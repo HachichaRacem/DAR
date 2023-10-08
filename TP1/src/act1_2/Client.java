@@ -14,7 +14,7 @@ public class Client {
 		System.out.println("Je suis un client");
 		try{
 			// Connecter au serveur en utilisant l'adresse IP cette fois + port.
-			Socket socket = new Socket("10.25.14.34", 1234);
+			Socket socket = new Socket("192.168.1.9", 1234);
 			System.out.println("Je suis connecté");
 			
 			// Le 'InputStream' est utilisé pour lire du stream avec le serveur.
