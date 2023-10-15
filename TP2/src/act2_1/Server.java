@@ -12,21 +12,26 @@ import java.net.Socket;
 public class Server {
 	public static void main(String[] args) {
 		try {
+			
+			// Réservation du port et acceptation de connexion
 			ServerSocket serverSocket = new ServerSocket(1234);
 			Socket socket = serverSocket.accept();
 			
 			System.out.println("Client connecté");
 			
-			OutputStream os = socket.getOutputStream();
-			PrintWriter pw = new PrintWriter(os, true);
 			
+			// Utlisation du InputStreamReader et BufferedReader pour pouvoir lire tous les caractères reçus du client
 			InputStream is = socket.getInputStream();
 			InputStreamReader isr = new InputStreamReader(is);
 			BufferedReader bfr = new BufferedReader(isr);
+			
+			// Conversion du Char vers Integer. 
 			int op1 = Integer.parseInt(bfr.readLine());
-			String operation = bfr.readLine();
 			int op2 = Integer.parseInt(bfr.readLine());
 			
+			String operation = bfr.readLine();
+			
+			// Traitement / Service
 			int resultat = op1;
 			switch(operation) {
 			case "+":
@@ -43,13 +48,13 @@ public class Server {
 				break;
 			}
 			
-			System.out.println(op1);
-			System.out.println(operation);
-			System.out.println(op2);
-			System.out.println(resultat);
+			// Utilisation de PrintWriter pour pouvoir envoyer plus d'un octet
+			OutputStream os = socket.getOutputStream();
+			PrintWriter pw = new PrintWriter(os, true);
 			
 			pw.println(resultat);
 			
+			// Libération des ressources
 			serverSocket.close();
 			socket.close();
 			
