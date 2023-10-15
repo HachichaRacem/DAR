@@ -2,6 +2,7 @@ package act2_2;
 
 import java.io.Serializable;
 
+// Implémentation de Serialisable pour pouvoir être converti en fichier binaire et envoyé
 public class Operation implements Serializable{
 	int op1, op2, resultat;
 	char operation;
