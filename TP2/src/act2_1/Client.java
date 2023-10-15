@@ -41,8 +41,8 @@ public class Client {
 			
 			// Envoi des données au serveur
 			pw.println(op1);
-			pw.println(operation);
 			pw.println(op2);
+			pw.println(operation);
 			
 			// Utlisation du InputStreamReader et BufferedReader pour pouvoir lire tous les caractères reçus du serveur
 			InputStream is = socket.getInputStream();
