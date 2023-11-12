@@ -20,21 +20,29 @@ public class Server {
 	
 	public static void main(String[] args) {
 		try {
-			// Reservation du port 1234
+			// Création d'une socket UDP pour écouter sur le port 1234
 			DatagramSocket socket = new DatagramSocket(PORT);
 			
-			System.out.println("Démarrage du server.");
+			System.out.println("Serveur en attente...");
 			
 			while(true) {
 				
 				// Preparation du packet dont on collecte les bytes reçus du Client
 				DatagramPacket packet = new DatagramPacket(buffer, buffLen);
+				socket.receive(packet);
 				
-				// Preparation du packet à envoyer.
-				DatagramPacket packetSend = new DatagramPacket(getCurrentTime().getBytes(), getCurrentTime().length(), packet.getAddress(), packet.getPort());
-				
-				// L'envoi du noveau packet.
-				socket.send(packetSend);
+				String request = new String(packet.getData(), 0, packet.getLength());
+				if(request.equals("temps")) {
+					
+					// Preparation du packet à envoyer.
+					DatagramPacket packetSend = new DatagramPacket(getCurrentTime().getBytes(), 
+							getCurrentTime().length(), 
+							packet.getAddress(), 
+							packet.getPort());
+					
+					// L'envoi du noveau packet.
+					socket.send(packetSend);
+				}
 			}
 		} catch (SocketException e) {
 			e.printStackTrace();

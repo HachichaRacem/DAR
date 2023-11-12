@@ -15,31 +15,23 @@ public class Client {
 	private static final byte[] buff = new byte[buffLen];
 	
 	public static void main(String[] args) {
-		
-		// Lecture du nom.
-		Scanner scanner = new Scanner(System.in);
-		System.out.print("Donner votre nom : ");
-		
-		String userName;
-		
-		do {
-			userName = scanner.nextLine();
-		}while(userName.length() == 0);
-		
-		scanner.close();
-		
 		try {
-			
-			InetAddress serverAddress = InetAddress.getByName("localhost");
-			
+			// Création d'une socket UDP pour se connecter au serveur sur le port 1234
 			DatagramSocket socket = new DatagramSocket();
 			
-			DatagramPacket packet = new DatagramPacket(buff, buffLen, serverAddress, PORT);
+			// Adresse du serveur
+			InetAddress serverAddress = InetAddress.getByName("localhost");
 			
+			// Envoi de la demande au serveur
+			DatagramPacket sendPacket = new DatagramPacket("temps".getBytes(), "temps".getBytes().length, serverAddress, PORT);
+			socket.send(sendPacket);
+			
+			// Création du paquet pour recevoir les données
+			DatagramPacket packet = new DatagramPacket(buff, buffLen, serverAddress, PORT);
 			socket.receive(packet);
 			
+			// Conversion des données reçues en String et affichage
 			String resultat = new String(packet.getData(), 0, buffLen);
-			
 			System.out.println("Resultat : " + resultat);
 			
 			socket.close();
